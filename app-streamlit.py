@@ -14,7 +14,7 @@ import json
 model_id = "stabilityai/stable-diffusion-2"
 
 # Use the Euler scheduler here instead
-scheduler = EulerDiscreteScheduler.from_pretrained(model_id, subfolder="scheduler")
+#scheduler = EulerDiscreteScheduler.from_pretrained(model_id, subfolder="scheduler")
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -62,12 +62,13 @@ def gen(prompt, input_image, strength, scale, steps):
 
     #print(input_image)
     if input_image is None:
-        pipe = StableDiffusionPipeline.from_pretrained(model_id, scheduler=scheduler, revision="fp16", torch_dtype=torch.float16)
+        #pipe = StableDiffusionPipeline.from_pretrained(model_id, scheduler=scheduler, revision="fp16", torch_dtype=torch.float16)
+        pipe = StableDiffusionPipeline.from_pretrained(model_id, revision="fp16", torch_dtype=torch.float16)
         pipe = pipe.to(device)
         pipe.enable_attention_slicing()
         image = pipe(prompt=prompt, height=768, width=768,guidance_scale=scale, num_inference_steps=steps).images
     else:
-        pipe = StableDiffusionImg2ImgPipeline.from_pretrained(model_id, scheduler=scheduler, revision="fp16", torch_dtype=torch.float16)        
+        pipe = StableDiffusionImg2ImgPipeline.from_pretrained(model_id, revision="fp16", torch_dtype=torch.float16)        
         #input_image=Image.fromarray(np.uint8(input_image))
         input_image = Image.open(BytesIO(input_image)).convert("RGB")
         input_image = input_image.resize((768, 768))
