@@ -1,0 +1,6 @@
+diffusers==0.7
+transformers[sentencepiece]
+torch
+accelerate
+git+https://github.com/facebookresearch/xformers.git@main#egg=xformers
+streamlit
